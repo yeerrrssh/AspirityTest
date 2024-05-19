@@ -34,3 +34,7 @@ svg {
   display: flex;
   align-items: center;
 }
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
+}

@@ -36,6 +36,7 @@
     ]
   },
   "devDependencies": {
+    "mobx": "^6.12.3",
     "mobx-react-lite": "^4.0.7",
     "react-hook-form": "^7.51.4",
     "tailwindcss": "^3.4.3"
