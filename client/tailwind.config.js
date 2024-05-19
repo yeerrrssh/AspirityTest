@@ -58,6 +58,7 @@ module.exports = {
         'state-transparent-contrast-hover': 'hsla(0, 0%, 100%, 0.04)',
         'state-transparent-contrast-focused': 'hsla(0, 0%, 100%, 0.12)',
         'accent-orange': 'hsla(14, 62%, 59%, 1)',
+        'modal-back': 'hsla(0, 0%, 0%, 0.4)',
       },
       margin: {
         '13': '52px',

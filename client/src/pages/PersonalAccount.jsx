@@ -18,21 +18,21 @@ const PersonalAccount = () => {
                 <p className='font-semibold text-sm text-text-tertiary uppercase'>Вернуться к сотрудникам</p>
             </div>
             <div className='relative w-full'>
-                <div className='pt-10 px-10 pb-5 bg-bg-secondary rounded-xl'>
-                    <div className='flex items-center space-x-12'>
+                <div className='py-6 px-4 xl:pt-10 xl:px-10 xl:pb-5 bg-bg-secondary rounded-xl'>
+                    <div className='flex flex-col justify-center text-center items-center space-y-4 xl:flex-row xl:justify-normal xl:text-left xl:space-x-12 xl:space-y-0'>
                         <img src={avatar} alt="Avatar"/>
-                        <p className="font-bold text-text-primary text-5xl">Иванов<br/>Иван Иванович</p>
+                        <p className="font-bold text-text-primary text-2xl whitespace-pre-line xl:text-5xl">{`Иванов\n Иван Иванович`}</p>
                     </div>
-                    <div className='mt-2 ml-52 space-y-4 font-normal text-base'>
+                    <div className='mt-6 space-y-4 font-normal text-base justify-center text-center xl:mt-2 xl:ml-52 xl:justify-normal xl:text-left'>
                         <p className='text-text-primary'>Junior UI/UX designer</p>
-                        <div className='flex space-x-2'>
+                        <div className='flex justify-center space-x-2 xl:justify-normal'>
                             <p className='text-text-primary'>Россия, Красноярск</p>
                             <p className='text-text-tertiary'>•</p>
                             <p className='text-text-tertiary'>14:03</p>
                         </div>
                     </div>
-                    <div className='flex mt-13'>
-                        <div className='border-b border-border-primary'>
+                    <div className='overflow-x-auto xl:flex mt-6 xl:mt-13'>
+                        <div className='w-[445px] xl:w-auto border-b border-border-primary'>
                             <Tab text={'Основная информация'} changeToggle={() => setToggle(tabBasicInformation)}
                                  isSelected={tabBasicInformation === toggle}/>
                             <Tab text={'Отпуск'} changeToggle={() => setToggle(tabVacation)}
