@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
-import {useForm} from 'react-hook-form';
 
-import Input from "../Input";
+import BasicInfoBlock from "../BasicInfoBlock";
+import Modal from "../Modal";
+import TeamInfo from "../TeamInfo";
 import Button from "../Button";
 
 import {ReactComponent as BlueArrow} from "../../img/arrow-right.svg";
@@ -13,10 +14,10 @@ import teamAvatar4 from "../../img/team-avatar-4.png";
 import teamAvatar5 from "../../img/team-avatar-5.png";
 import teamAvatar6 from "../../img/team-avatar-6.png";
 import teamAvatar7 from "../../img/team-avatar-7.png";
-import BasicInfoBlock from "../BasicInfoBlock";
 
 
 const BasicInformation = () => {
+    const [isModalActive, setIsModalActive] = useState(false);
 
     return (
         <>
@@ -63,7 +64,12 @@ const BasicInformation = () => {
                                     <img src={teamAvatar6} alt="Avatar"/>
                                     <img src={teamAvatar7} alt="Avatar"/>
                                 </div>
-                                <p className='font-normal text-text-primary text-base'>+2</p>
+                                <p
+                                    className='font-normal text-text-primary text-base cursor-pointer'
+                                    onClick={() => setIsModalActive(true)}
+                                >
+                                    +2
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -82,6 +88,11 @@ const BasicInformation = () => {
                 </div>
             </div>
         </div>
+            {isModalActive &&
+                <Modal setActive={setIsModalActive}>
+                    <TeamInfo/>
+                </Modal>
+            }
         </>
     );
 };

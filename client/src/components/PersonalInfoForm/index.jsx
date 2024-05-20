@@ -1,10 +1,11 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useForm} from "react-hook-form";
 import {Context} from "../../index";
 import {observer} from "mobx-react-lite";
 
 const PersonalInfoForm = ({isEditing}) => {
     const {user} = useContext(Context);
+
 
     const {
         register,
@@ -17,7 +18,7 @@ const PersonalInfoForm = ({isEditing}) => {
     });
 
     const onSubmit = (data) => {
-        alert(JSON.stringify(data));
+        alert("Данные успешно сохранены!");
         user.setName(data.name);
         user.setSurname(data.surname);
         user.setPatronymic(data.patronymic);
@@ -32,7 +33,7 @@ const PersonalInfoForm = ({isEditing}) => {
 
     return (
         <form
-            className='space-y-10'
+            className='space-y-6 xl:space-y-10'
             onSubmit={handleSubmit(onSubmit)}
         >
             <div className='space-y-6'>

@@ -37,7 +37,7 @@ export default class LocalStore{
         this._city = city;
     }
     setSalary(salary) {
-        this._city = salary;
+        this._salary = salary;
     }
     setWeekSalary(weekSalary) {
         this._weekSalary = weekSalary;
