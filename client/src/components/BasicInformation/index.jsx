@@ -1,6 +1,4 @@
-import React, {useState} from 'react';
-
-import BasicInfoBlock from "../BasicInfoBlock";
+import React, {useEffect, useState} from 'react';
 import Modal from "../Modal";
 import TeamInfo from "../TeamInfo";
 import Button from "../Button";
@@ -14,22 +12,136 @@ import teamAvatar4 from "../../img/team-avatar-4.png";
 import teamAvatar5 from "../../img/team-avatar-5.png";
 import teamAvatar6 from "../../img/team-avatar-6.png";
 import teamAvatar7 from "../../img/team-avatar-7.png";
+import Output from "../Output";
+import PersonalModal from "../PersonalModal";
+import DivisionModal from "../DivisionModal";
+import ContactsModal from "../ContactsModal";
 
 
 const BasicInformation = () => {
-    const [isModalActive, setIsModalActive] = useState(false);
+    const [isTeamModalActive, setIsTeamModalActive] = useState(false);
+    const [isPersonalModalActive, setIsPersonalModalActive] = useState(false);
+    const [isDivisionModalActive, setIsDivisionModalActive] = useState(false);
+    const [isContactsModalActive, setIsContactsModalActive] = useState(false);
+
+    const [personalInfo, setPersonalInfo] = useState({
+        name: 'Юрий',
+        surname: 'Герыш',
+        patronymic: 'Андреевич',
+        birthday: '2014-01-06',
+        employmentDate: '2020-05-15',
+        country: 'Россия',
+        city: 'Красноярск',
+        salary: '100 000 ₽',
+        weekSalary: '23 000 ₽',
+        accountNumber: '12345678912345678912',
+    });
+    const [divisionInfo, setDivisionInfo] = useState({
+        department: 'Дизайн',
+        director: 'Анна Кузнецова',
+        level: 'Junior',
+        position: 'UI/UX designer',
+    });
+    const [contactsInfo, setContactsInfo] = useState({
+        phoneNumber: '+7 (999) 999-99-99',
+        email: 'test@gmail.com',
+        telegram: '@tg',
+        slack: '@slack'
+    });
+
 
     return (
         <>
         <div className='w-full space-y-4 xl:flex xl:space-x-4 xl:space-y-0'>
             <div className='w-full px-4 py-7.5 space-y-8 bg-bg-secondary rounded-xl xl:w-820 xl:px-7.5 xl:space-y-10'>
-                <BasicInfoBlock heading={'Персональная информация'} isFirst={true}/>
-                <BasicInfoBlock heading={'Подразделение'} isFirst={true}/>
-                <BasicInfoBlock heading={'Контакты'} isFirst={true}/>
+                <div className='space-y-6 xl:space-y-8'>
+                    <div className='flex justify-between items-center'>
+                        <h5 className='font-medium text-text-primary text-base xl:font-normal xl:text-2xl'>
+                            Персональная информация
+                        </h5>
+                        <button
+                            className='text-sm text-text-tertiary'
+                            onClick={() => setIsPersonalModalActive(true)}
+                        >
+                            Изменить
+                        </button>
+                    </div>
+                    <div className='space-y-6'>
+                        <div className='space-y-6 xl:flex xl:space-x-6 xl:space-y-0'>
+                            <Output label={'Имя'} name={'name'} value={personalInfo.name} type={'text'}/>
+                            <Output label={'Фамилия'} name={'surname'} value={personalInfo.surname} type={'text'}/>
+                        </div>
+                        <Output label={'Отчество'} name={'patronymic'} value={personalInfo.patronymic} type={'text'}/>
+                        <div className='space-y-6 xl:flex xl:space-x-6 xl:space-y-0'>
+                            <Output label={'Дата рождения'} name={'birthday'} value={personalInfo.birthday}
+                                    type={'date'}/>
+                            <Output label={'Дата трудоустройства'} name={'employmentDate'}
+                                    value={personalInfo.employmentDate} type={'date'}/>
+                        </div>
+                        <div className='space-y-6 xl:flex xl:space-x-6 xl:space-y-0'>
+                            <Output label={'Страна'} name={'country'} value={personalInfo.country} type={'text'}/>
+                            <Output label={'Город'} name={'city'} value={personalInfo.city} type={'text'}/>
+                        </div>
+                        <div className='space-y-6 xl:flex xl:space-x-6 xl:space-y-0'>
+                            <Output label={'Зарплата'} name={'salary'} value={personalInfo.salary} type={'text'}/>
+                            <Output label={'Еженедельная зарплата'} name={'weekSalary'} value={personalInfo.weekSalary} type={'text'}/>
+                        </div>
+                        <Output label={'Номер счета'} name={'accountNumber'} value={personalInfo.accountNumber} type={'text'}/>
+                    </div>
+                </div>
+                <div className='space-y-6 xl:space-y-8'>
+                    <div className='flex justify-between items-center'>
+                        <h5 className='font-medium text-text-primary text-base xl:font-normal xl:text-2xl'>
+                            Подразделение
+                        </h5>
+                        <button
+                            className='text-sm text-text-tertiary'
+                            onClick={() => setIsDivisionModalActive(true)}
+                        >
+                            Изменить
+                        </button>
+                    </div>
+                    <div className='space-y-6'>
+                        <div className='space-y-6 xl:flex xl:space-x-6 xl:space-y-0'>
+                            <Output label={'Отдел'} name={'department'} value={divisionInfo.department} type={'text'}/>
+                            <Output label={'Руководитель'} name={'director'} value={divisionInfo.director} type={'text'}/>
+                        </div>
+                        <div className='space-y-6 xl:flex xl:space-x-6 xl:space-y-0'>
+                            <Output label={'Уровень'} name={'level'} value={divisionInfo.level} type={'text'}/>
+                            <Output label={'Должность'} name={'position'} value={divisionInfo.position} type={'text'}/>
+                        </div>
+                    </div>
+                </div>
+                <div className='space-y-6 xl:space-y-8'>
+                    <div className='flex justify-between items-center'>
+                        <h5 className='font-medium text-text-primary text-base xl:font-normal xl:text-2xl'>
+                            Контакты
+                        </h5>
+                        <button
+                            className='text-sm text-text-tertiary'
+                            onClick={() => setIsContactsModalActive(true)}
+                        >
+                            Изменить
+                        </button>
+                    </div>
+                    <div className='space-y-6'>
+                        <div className='space-y-6 xl:flex xl:space-x-6 xl:space-y-0'>
+                            <Output label={'Номер телефона'} name={'phoneNumber'} value={contactsInfo.phoneNumber}
+                                    type={'tel'}/>
+                            <Output label={'Электронная почта'} name={'email'} value={contactsInfo.email} type={'email'}/>
+                        </div>
+                        <div className='space-y-6 xl:flex xl:space-x-6 xl:space-y-0'>
+                            <Output label={'Telegram'} name={'telegram'} value={contactsInfo.telegram} type={'text'}/>
+                            <Output label={'Slack'} name={'slack'} value={contactsInfo.slack} type={'text'}/>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div className='w-full px-4 py-7.5 space-y-8 bg-bg-secondary rounded-xl h-fit xl:w-658 xl:px-7.5 xl:space-y-10'>
+            <div
+                className='w-full px-4 py-7.5 space-y-8 bg-bg-secondary rounded-xl h-fit xl:w-658 xl:px-7.5 xl:space-y-10'>
                 <div className='flex justify-between items-center'>
-                    <h5 className='font-medium text-text-primary text-base xl:font-normal xl:text-2xl'>Загрузка сотрудника</h5>
+                    <h5 className='font-medium text-text-primary text-base xl:font-normal xl:text-2xl'>Загрузка
+                        сотрудника</h5>
                     <p className='font-semibold text-sm text-accent-orange'>100%</p>
                 </div>
 
@@ -64,12 +176,12 @@ const BasicInformation = () => {
                                     <img src={teamAvatar6} alt="Avatar"/>
                                     <img src={teamAvatar7} alt="Avatar"/>
                                 </div>
-                                <p
+                                <span
                                     className='font-normal text-text-primary text-base cursor-pointer'
-                                    onClick={() => setIsModalActive(true)}
+                                    onClick={() => setIsTeamModalActive(true)}
                                 >
                                     +2
-                                </p>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -88,10 +200,19 @@ const BasicInformation = () => {
                 </div>
             </div>
         </div>
-            {isModalActive &&
-                <Modal setActive={setIsModalActive}>
+            {isTeamModalActive &&
+                <Modal setActive={setIsTeamModalActive}>
                     <TeamInfo/>
                 </Modal>
+            }
+            {isPersonalModalActive &&
+                <PersonalModal setActive={setIsPersonalModalActive} data={personalInfo} setData={setPersonalInfo}/>
+            }
+            {isDivisionModalActive &&
+                <DivisionModal setActive={setIsDivisionModalActive} data={divisionInfo} setData={setDivisionInfo}/>
+            }
+            {isContactsModalActive &&
+                <ContactsModal setActive={setIsContactsModalActive} data={contactsInfo} setData={setContactsInfo}/>
             }
         </>
     );

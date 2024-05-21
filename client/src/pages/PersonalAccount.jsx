@@ -1,10 +1,10 @@
 import React, {useContext, useEffect, useState} from 'react';
 import Tab from "../components/Tab";
-import {observer} from "mobx-react-lite";
 import BasicInformation from "../components/BasicInformation";
 import {ReactComponent as ArrowLeft} from "../img/chevron-left.svg";
 import avatar from "../img/avatar-160.png";
 import VacationInformation from "../components/VacationInformation";
+import EquipmentInformation from "../components/EquipmentInformation";
 
 const PersonalAccount = () => {
 
@@ -52,7 +52,7 @@ const PersonalAccount = () => {
                     <VacationInformation/>
                 </div>
                 <div className={`mt-4 w-full ${toggle === tabEquipment ? 'block' : 'hidden'}`}>
-                    {toggle}
+                    <EquipmentInformation/>
                 </div>
             </div>
         </section>

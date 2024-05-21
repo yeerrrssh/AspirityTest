@@ -64,7 +64,6 @@ const VacationInformation = () => {
         ],
     }
     const shortData = vacationData.vacations.slice(0, 5);
-    console.log(shortData);
 
     const dayDesc = (daysNum) => {
         let desc = '';
