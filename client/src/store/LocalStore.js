@@ -4,8 +4,8 @@ export default class LocalStore{
     constructor() {
         this._personalData = {
             name: 'София',
-            surname: 'Дмитриевна',
-            patronymic: 'Рус',
+            surname: 'Рус',
+            patronymic: 'Дмитриевна',
             birthday: '2003-09-12',
             employmentDate: '2020-05-15',
             country: 'Россия',

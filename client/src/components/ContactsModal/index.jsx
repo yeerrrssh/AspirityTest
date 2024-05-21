@@ -21,7 +21,6 @@ const ContactsModal = ({setActive, data, setData}) => {
     const onSubmit = (data) => {
         setData(data);
         setActive(false);
-        alert("Данные успешно сохранены!");
     };
 
     //const normalizePhone = (value) => {

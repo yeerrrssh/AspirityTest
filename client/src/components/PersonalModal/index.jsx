@@ -44,7 +44,6 @@ const PersonalModal = ({setActive, data, setData}) => {
         data.country=selectedCountry;
         setData(data);
         setActive(false);
-        alert("Данные успешно сохранены!");
     };
 
     const normalizeSalary = (value) => {

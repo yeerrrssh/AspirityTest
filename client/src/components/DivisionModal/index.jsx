@@ -53,7 +53,6 @@ const DivisionModal = ({setActive, data, setData}) => {
         data.position=selectedPosition;
         setData(data);
         setActive(false);
-        alert("Данные успешно сохранены!");
     };
 
     return createPortal((
