@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {ReactComponent as Info} from "../../img/info.svg";
 import {ReactComponent as GreenDot} from "../../img/green-dot.svg";
 import {ReactComponent as YellowDot} from "../../img/yellow-dot.svg";
@@ -8,61 +8,15 @@ import {ReactComponent as RedArrow} from "../../img/red-arrow-right.svg";
 
 import DoughnutChart from "../DoughnutChart";
 import VacationModal from "../VacationModal";
+import {Context} from "../../index";
 
 
 const VacationInformation = () => {
+    const {data} = useContext(Context);
     const [isModalActive, setIsModalActive] = useState(false);
     const [showInfo, setShowInfo] = useState(false);
 
-    const vacationData = {
-        available: 32,
-        planned: 8,
-        used: 4,
-        vacations: [
-            {
-                type: 'Отпуск',
-                start: '03 марта 2023',
-                end: '23 марта 2023',
-                daysCount: 20,
-            },
-            {
-                type: 'Отгул',
-                start: '01 марта 2023',
-                end: '03 марта 2023',
-                daysCount: 3,
-            },
-            {
-                type: 'Отгул',
-                start: '11 мая 2023',
-                end: '15 мая 2023',
-                daysCount: 4,
-            },
-            {
-                type: 'Отпуск',
-                start: '01 марта 2023',
-                end: '12 марта 2023',
-                daysCount: 12,
-            },
-            {
-                type: 'Отгул',
-                start: '17 февраля 2023',
-                end: '21 февраля 2023',
-                daysCount: 5,
-            },
-            {
-                type: 'Отгул',
-                start: '12 февраля 2023',
-                end: '12 февраля 2023',
-                daysCount: 1,
-            },
-            {
-                type: 'Отгул',
-                start: '7 января 2023',
-                end: '16 января 2023',
-                daysCount: 10,
-            },
-        ],
-    }
+    const vacationData = data.vacationData;
     const shortData = vacationData.vacations.slice(0, 5);
 
     const dayDesc = (daysNum) => {
@@ -76,7 +30,6 @@ const VacationInformation = () => {
         }
         return desc;
     }
-
 
     return (
         <>
@@ -136,8 +89,10 @@ const VacationInformation = () => {
                     <div className='flex items-center justify-between'>
                         <h5 className='font-medium text-text-primary text-base xl:font-normal xl:text-2xl'>История
                             отпусков</h5>
-                        <button className='text-sm text-text-tertiary' onClick={() => setIsModalActive(true)}>Посмотреть
-                            все
+                        <button
+                            className='text-sm text-text-tertiary hover:text-text-secondary transition'
+                            onClick={() => setIsModalActive(true)}>
+                            Посмотреть все
                         </button>
                     </div>
                     <div className='hidden xl:flex w-full'>

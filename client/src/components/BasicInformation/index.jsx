@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Modal from "../Modal";
 import TeamInfo from "../TeamInfo";
 import Button from "../Button";
@@ -16,38 +16,28 @@ import Output from "../Output";
 import PersonalModal from "../PersonalModal";
 import DivisionModal from "../DivisionModal";
 import ContactsModal from "../ContactsModal";
+import {Context} from "../../index";
 
 
-const BasicInformation = () => {
+const BasicInformation = ({changePersonalData, changeDivisionData}) => {
+    const {data} = useContext(Context);
+
     const [isTeamModalActive, setIsTeamModalActive] = useState(false);
     const [isPersonalModalActive, setIsPersonalModalActive] = useState(false);
     const [isDivisionModalActive, setIsDivisionModalActive] = useState(false);
     const [isContactsModalActive, setIsContactsModalActive] = useState(false);
 
-    const [personalInfo, setPersonalInfo] = useState({
-        name: 'Юрий',
-        surname: 'Герыш',
-        patronymic: 'Андреевич',
-        birthday: '2014-01-06',
-        employmentDate: '2020-05-15',
-        country: 'Россия',
-        city: 'Красноярск',
-        salary: '100 000 ₽',
-        weekSalary: '23 000 ₽',
-        accountNumber: '12345678912345678912',
-    });
-    const [divisionInfo, setDivisionInfo] = useState({
-        department: 'Дизайн',
-        director: 'Анна Кузнецова',
-        level: 'Junior',
-        position: 'UI/UX designer',
-    });
-    const [contactsInfo, setContactsInfo] = useState({
-        phoneNumber: '+7 (999) 999-99-99',
-        email: 'test@gmail.com',
-        telegram: '@tg',
-        slack: '@slack'
-    });
+    const [personalInfo, setPersonalInfo] = useState(data.personalData);
+    const [divisionInfo, setDivisionInfo] = useState(data.divisionData);
+    const [contactsInfo, setContactsInfo] = useState(data.contactsData);
+
+    useEffect(() => {
+        changePersonalData(personalInfo);
+        changeDivisionData(divisionInfo);
+        data.setPersonalData(personalInfo);
+        data.setDivisionData(divisionInfo);
+        data.setContactsData(contactsInfo);
+    }, [personalInfo, divisionInfo, contactsInfo]);
 
 
     return (
@@ -60,7 +50,7 @@ const BasicInformation = () => {
                             Персональная информация
                         </h5>
                         <button
-                            className='text-sm text-text-tertiary'
+                            className='text-sm text-text-tertiary hover:text-text-secondary transition'
                             onClick={() => setIsPersonalModalActive(true)}
                         >
                             Изменить
@@ -95,7 +85,7 @@ const BasicInformation = () => {
                             Подразделение
                         </h5>
                         <button
-                            className='text-sm text-text-tertiary'
+                            className='text-sm text-text-tertiary hover:text-text-secondary transition'
                             onClick={() => setIsDivisionModalActive(true)}
                         >
                             Изменить
@@ -118,7 +108,7 @@ const BasicInformation = () => {
                             Контакты
                         </h5>
                         <button
-                            className='text-sm text-text-tertiary'
+                            className='text-sm text-text-tertiary hover:text-text-secondary transition'
                             onClick={() => setIsContactsModalActive(true)}
                         >
                             Изменить

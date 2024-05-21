@@ -33,6 +33,7 @@ const PersonalModal = ({setActive, data, setData}) => {
         register,
         formState: {
             errors,
+            isValid,
         },
         handleSubmit,
     } = useForm({
@@ -41,12 +42,25 @@ const PersonalModal = ({setActive, data, setData}) => {
 
     const onSubmit = (data) => {
         data.country=selectedCountry;
-        console.log(selectedCountry);
-        console.log(data);
         setData(data);
         setActive(false);
         alert("Данные успешно сохранены!");
     };
+
+    const normalizeSalary = (value) => {
+        let salary = value.toString();
+        if (salary === "") { return ''; }
+        salary = salary.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        salary = salary + ' ₽';
+        return salary;
+    }
+
+    const normalizeAccountNumber = (value) => {
+        let phoneNumber = value.toString();
+        if (phoneNumber === "") { return ''; }
+        phoneNumber = phoneNumber.replace(/\D/g, "").replace(/\B(?=(\d{4})+(?!\d))/g, " ");
+        return phoneNumber;
+    }
 
     return createPortal((
         <div
@@ -78,6 +92,10 @@ const PersonalModal = ({setActive, data, setData}) => {
                                             value: 2,
                                             message: "Имя не может быть короче 2 символов"
                                         },
+                                        pattern: {
+                                            value: /^[а-яА-Яa-zA-Z]*$/,
+                                            message: "Используйте только буквенные символы",
+                                        },
                                         value: data.name,
                                     })}
                                 />
@@ -101,6 +119,10 @@ const PersonalModal = ({setActive, data, setData}) => {
                                             value: 2,
                                             message: "Фамилия не может быть короче 2 символов"
                                         },
+                                        pattern: {
+                                            value: /^[а-яА-Яa-zA-Z]*$/,
+                                            message: "Используйте только буквенные символы",
+                                        },
                                         value: data.surname,
                                     })}
                                 />
@@ -123,6 +145,10 @@ const PersonalModal = ({setActive, data, setData}) => {
                                     minLength: {
                                         value: 6,
                                         message: "Отчество не может быть короче 6 символов"
+                                    },
+                                    pattern: {
+                                        value: /^[а-яА-Яa-zA-Z]*$/,
+                                        message: "Используйте только буквенные символы",
                                     },
                                     value: data.patronymic,
                                 })}
@@ -177,7 +203,7 @@ const PersonalModal = ({setActive, data, setData}) => {
                         </div>
                         <div className='space-y-4 xl:flex xl:space-x-6 xl:space-y-0'>
                             <div className='relative'>
-                                <Selector label={'Страна'} data={countries} setSelected={setSelectedCountry} defValue={selectedCountry}/>
+                                <Selector label={'Страна'} data={countries} setSelected={setSelectedCountry} defValue={selectedCountry} isAsync={true}/>
                             </div>
                             <div className='relative'>
                                 <label
@@ -190,6 +216,10 @@ const PersonalModal = ({setActive, data, setData}) => {
                                     {...register('city', {
                                         required: "Поле обязательно к заполнению",
                                         value: data.city,
+                                        pattern: {
+                                            value: /^[а-яА-Яa-zA-Z\-[ ]*$/,
+                                            message: "Используйте только буквенные символы",
+                                        },
                                     })}
                                 />
                                 <div className='relative ml-2.5'>
@@ -212,6 +242,9 @@ const PersonalModal = ({setActive, data, setData}) => {
                                         required: "Поле обязательно к заполнению",
                                         value: data.salary,
                                     })}
+                                    onChange={(event) => {
+                                        event.target.value = normalizeSalary(event.target.value);
+                                    }}
                                 />
                                 <div className='relative ml-2.5'>
                                     {errors?.salary &&
@@ -231,6 +264,9 @@ const PersonalModal = ({setActive, data, setData}) => {
                                         required: "Поле обязательно к заполнению",
                                         value: data.weekSalary,
                                     })}
+                                    onChange={(event) => {
+                                        event.target.value = normalizeSalary(event.target.value);
+                                    }}
                                 />
                                 <div className='relative ml-2.5'>
                                     {errors?.weekSalary &&
@@ -250,15 +286,18 @@ const PersonalModal = ({setActive, data, setData}) => {
                                 {...register('accountNumber', {
                                     required: "Поле обязательно к заполнению",
                                     minLength: {
-                                        value: 20,
+                                        value: 24,
                                         message: "Номер счета должен состоять из 20 символов"
                                     },
                                     maxLength: {
-                                        value: 20,
+                                        value: 24,
                                         message: "Номер счета должен состоять из 20 символов"
                                     },
                                     value: data.accountNumber,
                                 })}
+                                onChange={(event) => {
+                                    event.target.value = normalizeAccountNumber(event.target.value);
+                                }}
                             />
                             <div className='relative ml-2.5'>
                                 {errors?.accountNumber &&
@@ -268,9 +307,10 @@ const PersonalModal = ({setActive, data, setData}) => {
                         </div>
                     </div>
                     <input
-                        className='cursor-pointer w-full bg-bg-accent px-4 py-2.5 rounded font-semibold text-sm text-text-primary uppercase'
+                        className='hover:bg-state-blue-hover active:bg-state-blue-focused transition-all cursor-pointer w-full bg-bg-accent px-4 py-2.5 rounded font-semibold text-sm text-text-primary uppercase'
                         type={"submit"}
                         value={'Сохранить'}
+                        disabled={!isValid}
                     />
                 </form>
             </div>

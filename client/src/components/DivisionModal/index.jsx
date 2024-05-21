@@ -3,6 +3,7 @@ import {createPortal} from "react-dom";
 import {useForm} from "react-hook-form";
 
 import closeBtn from "../../img/exit.svg";
+import Selector from "../Selector";
 
 const modalPortal = document.getElementById('modal');
 
@@ -13,11 +14,9 @@ const DivisionModal = ({setActive, data, setData}) => {
 
     const departmentData = [
         {name: 'Разработка'},
-        {name: 'Стратегия'},
+        {name: 'Дизайн'},
         {name: 'Маркетинг'},
-        {name: 'Продажи'},
         {name: 'Тестирование'},
-        {name: 'Ресурсы'},
     ];
     const levelData = [
         {name: 'Junior'},
@@ -41,13 +40,17 @@ const DivisionModal = ({setActive, data, setData}) => {
         register,
         formState: {
             errors,
+            isValid,
         },
         handleSubmit,
     } = useForm({
-        mode: "onBlur",
+        mode: "onChange",
     });
 
     const onSubmit = (data) => {
+        data.department=selectedDepartment;
+        data.level=selectedLevel;
+        data.position=selectedPosition;
         setData(data);
         setActive(false);
         alert("Данные успешно сохранены!");
@@ -57,10 +60,9 @@ const DivisionModal = ({setActive, data, setData}) => {
         <div
             className='fixed flex top-0 left-0 w-screen overflow-y-auto h-screen bg-modal-back md:justify-center md:items-center'>
             <div
-                className='w-screen h-screen overflow-auto space-y-6 px-4 py-7.5 bg-bg-secondary xl:rounded-xl xl:space-y-10 xl:w-[824px] xl:px-7.5 xl:h-auto'>
+                className='w-screen h-screen space-y-6 px-4 py-7.5 bg-bg-secondary xl:rounded-xl xl:space-y-10 xl:w-[824px] xl:px-7.5 xl:h-auto'>
                 <div className='flex items-center justify-between'>
-                    <h5 className='font-medium text-text-primary text-base xl:font-normal xl:text-3xl'>Персональные
-                        данные</h5>
+                    <h5 className='font-medium text-text-primary text-base xl:font-normal xl:text-3xl'>Подразделение</h5>
                     <img className='cursor-pointer' onClick={() => setActive(false)} src={closeBtn} alt='Close'/>
                 </div>
                 <form
@@ -70,89 +72,46 @@ const DivisionModal = ({setActive, data, setData}) => {
                     <div className='space-y-4 xl:space-y-6'>
                         <div className='space-y-4 xl:flex xl:space-x-6 xl:space-y-0'>
                             <div className='relative'>
-                                <label
-                                    className='absolute start-2 top-[-8px] px-1 text-xs text-text-secondary bg-bg-secondary mb-r8'
-                                >
-                                    Отдел
-                                </label>
-                                <input
-                                    className='outline-0 w-full xl:min-w-[368px] px-3.5 py-2.5 text-sm bg-bg-secondary font-medium text-text-secondary border border-border-primary rounded'
-                                    {...register('department', {
-                                        required: "Поле обязательно к заполнению",
-                                        value: data.department,
-                                    })}
-                                />
-                                <div className='relative ml-3.5'>
-                                    {errors?.department &&
-                                        <p className='text-text-error'>{errors?.department.message || "Error!"}</p>
-                                    }
-                                </div>
+                                <Selector label={'Отдел'} data={departmentData} setSelected={setSelectedDepartment} defValue={selectedDepartment} isAsync={false}/>
                             </div>
                             <div className='relative'>
                                 <label
-                                    className='absolute start-2 top-[-8px] px-1 text-xs text-text-secondary bg-bg-secondary mb-r8'
+                                    className={`absolute start-2 top-[-8px] px-1 text-xs bg-bg-secondary mb-r8 ${errors?.director ? 'text-text-error' : 'text-text-secondary'}`}
                                 >
                                     Руководитель
                                 </label>
                                 <input
-                                    className='outline-0 w-full xl:min-w-[368px] px-3.5 py-2.5 text-sm bg-bg-secondary font-medium text-text-secondary border border-border-primary rounded'
+                                    className={`outline-0 hover:border-icons-primary transition-all w-full xl:min-w-[368px] px-3.5 py-2.5 text-sm bg-bg-secondary font-medium text-text-secondary border rounded ${errors?.director ? 'border-border-error' : 'border-border-primary focus:border-icons-success focus:text-text-success'}`}
                                     {...register('director', {
                                         required: "Поле обязательно к заполнению",
                                         value: data.director,
+                                        pattern: {
+                                            value: /^[а-яА-Яa-zA-Z[ ]*$/,
+                                            message: "Используйте только буквенные символы",
+                                        },
                                     })}
                                 />
-                                <div className='relative ml-3.5'>
+                                <div className='relative ml-2.5'>
                                     {errors?.director &&
-                                        <p className='text-text-error'>{errors?.director.message || "Error!"}</p>
+                                        <p className='text-text-error text-xs'>{errors?.director.message || "Error!"}</p>
                                     }
                                 </div>
                             </div>
                         </div>
                         <div className='space-y-4 xl:flex xl:space-x-6 xl:space-y-0'>
                             <div className='relative'>
-                                <label
-                                    className='absolute start-2 top-[-8px] px-1 text-xs text-text-secondary bg-bg-secondary mb-r8'
-                                >
-                                    Уровень
-                                </label>
-                                <input
-                                    className='outline-0 w-full xl:min-w-[368px] px-3.5 py-2.5 text-sm bg-bg-secondary font-medium text-text-secondary border border-border-primary rounded'
-                                    {...register('level', {
-                                        required: "Поле обязательно к заполнению",
-                                        value: data.level,
-                                    })}
-                                />
-                                <div className='relative ml-3.5'>
-                                    {errors?.level &&
-                                        <p className='text-text-error'>{errors?.level.message || "Error!"}</p>
-                                    }
-                                </div>
+                                <Selector label={'Уровень'} data={levelData} setSelected={setSelectedLevel} defValue={selectedLevel} isAsync={false}/>
                             </div>
                             <div className='relative'>
-                                <label
-                                    className='absolute start-2 top-[-8px] px-1 text-xs text-text-secondary bg-bg-secondary mb-r8'
-                                >
-                                    Должность
-                                </label>
-                                <input
-                                    className='outline-0 w-full xl:min-w-[368px] px-3.5 py-2.5 text-sm bg-bg-secondary font-medium text-text-secondary border border-border-primary rounded'
-                                    {...register('position', {
-                                        required: "Поле обязательно к заполнению",
-                                        value: data.position,
-                                    })}
-                                />
-                                <div className='relative ml-3.5'>
-                                    {errors?.position &&
-                                        <p className='text-text-error'>{errors?.position.message || "Error!"}</p>
-                                    }
-                                </div>
+                                <Selector label={'Должность'} data={positionData} setSelected={setSelectedPosition} defValue={selectedPosition} isAsync={false}/>
                             </div>
                         </div>
                     </div>
                     <input
-                        className='cursor-pointer w-full bg-bg-accent px-4 py-2.5 rounded font-semibold text-sm text-text-primary uppercase'
+                        className='hover:bg-state-blue-hover active:bg-state-blue-focused transition-all cursor-pointer w-full bg-bg-accent px-4 py-2.5 rounded font-semibold text-sm text-text-primary uppercase'
                         type={"submit"}
                         value={'Сохранить'}
+                        disabled={!isValid}
                     />
                 </form>
             </div>

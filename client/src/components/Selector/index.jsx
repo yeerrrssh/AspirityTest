@@ -1,8 +1,9 @@
 import React from 'react';
 import AsyncSelect from "react-select/async";
+import Select from "react-select";
 
 
-const Selector = ({label, data, setSelected, defValue}) => {
+const Selector = ({label, data, setSelected, defValue, isAsync}) => {
     const options = [];
     data.map(obj => {
         options.push({value: obj.name, label: obj.name});
@@ -45,6 +46,7 @@ const Selector = ({label, data, setSelected, defValue}) => {
         }),
         menu: (styles) => ({...styles,
             backgroundColor: '#232324',
+            zIndex: '55',
         }),
     }
 
@@ -64,12 +66,20 @@ const Selector = ({label, data, setSelected, defValue}) => {
     return (
         <div className='relative'>
             <span className='absolute z-50 start-2 top-[-8px] px-1 text-xs text-text-secondary bg-bg-secondary mb-r8'>{label}</span>
-            <AsyncSelect
-                loadOptions={loadOptions}
-                onChange={handleChange}
-                styles={colorStyles}
-                defaultValue={defObj}
-            />
+            {isAsync ?
+                <AsyncSelect
+                    loadOptions={loadOptions}
+                    onChange={handleChange}
+                    styles={colorStyles}
+                    defaultValue={defObj}
+                /> :
+                <Select
+                    onChange={handleChange}
+                    options={options}
+                    styles={colorStyles}
+                    defaultValue={defObj}
+                />
+            }
         </div>
     );
 };
